@@ -34,3 +34,9 @@ java version "1.8.0_271"
 Java(TM) SE Runtime Environment (build 1.8.0_271-b09)
 Java HotSpot(TM) 64-Bit Server VM (build 25.271-b09, mixed mode)
 ```
+
+## Java Apereo CAS Client
+Once Java is installed you need to download the [Java Apereo CAS Client](https://github.com/apereo/java-cas-client). You may see it mentioned as the JASIG CAS client as well. The below line will clone (download) the CAS client into your current directory.
+```
+$ git clone git@github.com:apereo/java-cas-client.git .
+```
