@@ -1,0 +1,13 @@
+.classpath
+!/.project
+.project
+.settings
+bin
+target
+*.ipr
+*.iml
+*.iws
+.idea/
+.DS_Store
+.java-version
+.idea
