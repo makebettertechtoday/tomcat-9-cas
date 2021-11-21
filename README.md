@@ -35,8 +35,28 @@ Java(TM) SE Runtime Environment (build 1.8.0_271-b09)
 Java HotSpot(TM) 64-Bit Server VM (build 25.271-b09, mixed mode)
 ```
 
+## Install Maven
+Maven is a build tool for Java. It is similar to composer in PHP except it not only downloads dependencies it builds them, too.
+### Install Maven with yum on Centos
+You should be able to install Maven with yum without enabling the EPEL repo. Read all the answers on this [Stack Overflow](https://stackoverflow.com/questions/7532928/how-do-i-install-maven-with-yum). It is customary to shorten it to mvn.
+```
+$ yum install maven
+$ mvn -version
+```
+### Install Maven on everything else
+For other platforms it is best to follow [Maven's install directions](https://maven.apache.org/install.html). Note setting the PATH will make it easier to execute. You can do that with:
+```
+export PATH=/opt/apache-maven-3.8.4/bin:$PATH
+```
+but that is only temporary. It is best to add this to ~/.bashrc (or .zshrc) so it is permanent.
+
 ## Java Apereo CAS Client
 Once Java is installed you need to download the [Java Apereo CAS Client](https://github.com/apereo/java-cas-client). You may see it mentioned as the JASIG CAS client as well. The below line will clone (download) the CAS client into your current directory.
 ```
 $ git clone git@github.com:apereo/java-cas-client.git .
+```
+Change to the directory and have Maven build the client.
+```
+$ cd java-cas-client
+$ mvn clean package
 ```
