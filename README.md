@@ -60,3 +60,74 @@ Change to the directory and have Maven build the client.
 $ cd java-cas-client
 $ mvn clean package
 ```
+
+## Install Tomcat
+
+## Move JAR files to Tomcat Lib
+Move cas-client-core-3.6.3-SNAPSHOT.jar, cas-client-integration-tomcat-common-3.6.3-SNAPSHOT.jar, and cas-client-integration-tomcat-v90-3.6.3-SNAPSHOT.jar to Tomcat's lib directory.
+They are in /path/to/java-cas-client-master/target and /path/to/java-cas-client-master/cas-client-integration-tomcat-v90/target
+
+Best practice would be to add a POM file and have Maven move these; I didn't do that.
+
+## Edit web.xml
+Add the below to the filter section. About line 591.
+```
+                                <!-- https://cuit.columbia.edu/cas-authentication/java -->
+                                 <filter>
+                                    <filter-name>CAS Authentication Filter</filter-name>
+                                    <filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
+                                    <init-param>
+                                    <param-name>casServerLoginUrl</param-name>
+                                    <param-value>https://prime.uindy.edu/cas/login</param-value>
+                                    </init-param>
+                                    <init-param>
+                                    <param-name>serverName</param-name>
+                                    <param-value>http://localhost:8080</param-value>
+                                    </init-param>
+                                </filter>
+                                <filter>
+                                    <filter-name>CAS Validation Filter</filter-name>
+                                    <filter-class>org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</filter-class>
+                                    <init-param>
+                                    <param-name>casServerUrlPrefix</param-name>
+                                    <param-value>https://prime.uindy.edu/cas/</param-value>
+                                    </init-param>
+                                    <init-param>
+                                    <param-name>serverName</param-name>
+                                    <param-value>http://localhost:8080</param-value>
+                                    </init-param>
+                                    <init-param>
+                                    <param-name>artifactParameterName</param-name>
+                                    <param-value>ticket</param-value>
+                                    </init-param>
+                                    <init-param>
+                                    <param-name>redirectAfterValidation</param-name>
+                                    <param-value>true</param-value>
+                                    </init-param>
+                                </filter>
+                                <filter>
+                                    <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
+                                    <filter-class>org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class>
+                                </filter> 
+```
+
+Add the below to the filter-mapping section
+```
+                <!-- https://cuit.columbia.edu/cas-authentication/java -->
+                <filter-mapping> 
+                    <filter-name>CAS Authentication Filter</filter-name> 
+                    <url-pattern>/*</url-pattern> 
+                    </filter-mapping> 
+                <filter-mapping> 
+                    <filter-name>CAS Validation Filter</filter-name> 
+                    <url-pattern>/*</url-pattern> 
+                </filter-mapping> 
+                <filter-mapping> 
+                    <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name> 
+                    <url-pattern>/*</url-pattern> 
+                </filter-mapping>
+```
+
+## Start Tomcat
+
+## Try to go to localhost:8080
